@@ -3,6 +3,7 @@ package com.example.car_renovation.document;
 import com.example.car_renovation.adresse.Adresse;
 import com.example.car_renovation.client.Client;
 import com.example.car_renovation.type.Type;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -18,35 +19,34 @@ public class Document {
     @OneToOne
     @JoinColumn(name="adresse_chantier", referencedColumnName="id")
     private Adresse adresse;
-
-//    @OneToOne
-//    @JoinColumn(name = "typeId")
-//    private Type type;
+    @OneToOne
+    @JoinColumn(name = "type", referencedColumnName="id")
+    private Type type;
     private LocalDate date_document;
 
-    private String montant;
+    private Double montant;
 
-    public Document(Long id, String name, Client client, Adresse adresse, LocalDate date_document, String montant) {
+    private Double tva;
+
+    public Document(Long id, String name, Client client, Adresse adresse, Type type, LocalDate date_document, Double montant, Double tva) {
         this.id = id;
         this.name = name;
         this.client = client;
         this.adresse = adresse;
+        this.type = type;
         this.date_document = date_document;
         this.montant = montant;
+        this.tva = tva;
     }
-    public Document(String name, Client client, Adresse adresse, LocalDate date_document, String montant) {
+
+    public Document(String name, Client client, Adresse adresse, Type type, LocalDate date_document, Double montant, Double tva) {
         this.name = name;
         this.client = client;
         this.adresse = adresse;
+        this.type = type;
         this.date_document = date_document;
         this.montant = montant;
-    }
-
-    public Document(Long id, String name, LocalDate date_document, String montant) {
-        this.id = id;
-        this.name = name;
-        this.date_document = date_document;
-        this.montant = montant;
+        this.tva = tva;
     }
 
     public Long getId() {
@@ -81,6 +81,14 @@ public class Document {
         this.adresse = adresse;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     public LocalDate getDate_document() {
         return date_document;
     }
@@ -89,12 +97,20 @@ public class Document {
         this.date_document = date_document;
     }
 
-    public String getMontant() {
+    public Double getMontant() {
         return montant;
     }
 
-    public void setMontant(String montant) {
+    public void setMontant(Double montant) {
         this.montant = montant;
+    }
+
+    public Double getTva() {
+        return tva;
+    }
+
+    public void setTva(Double tva) {
+        this.tva = tva;
     }
 
     public Document() {
